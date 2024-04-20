@@ -1,6 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,72 +12,52 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace lab05
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Lógica de interacción para Borrar.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Borrar : Window
     {
         public string connectionString = "Data Source=LAB1504-28\\SQLEXPRESS;Initial Catalog=lab5;User Id=reynoso;Password=123";
-        public List<Clientes> ListaClientes { get; set; }
-        public MainWindow()
+        public List<ClientesBorrados> ListaClientes { get; set; }
+        public Borrar()
         {
             InitializeComponent();
-            ListaClientes = new List<Clientes>(); 
+            ListaClientes = new List<ClientesBorrados>();
             dataClientes.ItemsSource = ListaClientes;
         }
 
-        private void Button_Insertar(object sender, RoutedEventArgs e)
+        private void Button_Borrar(object sender, RoutedEventArgs e)
         {
             string idCliente = txtIdCliente.Text;
-            string nombreCompañia = txtNombreCompañia.Text;
-            string nombreContacto = txtNombreContacto.Text;
-            string cargoContacto = txtCargoContacto.Text;
-            string direccion = txtDireccion.Text;
-            string ciudad = txtCiudad.Text;
-            string pais = txtPais.Text;
-            string telefono = txtTelefono.Text;
-
-            Clientes nuevoCliente = new Clientes(idCliente, nombreCompañia, nombreContacto, cargoContacto, direccion, ciudad, pais, telefono);
-            ListaClientes.Add(nuevoCliente);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                using (SqlCommand command = new SqlCommand("USP_InsertarClientes", connection))
+                using (SqlCommand command = new SqlCommand("USP_EliminarCliente", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@idCliente", idCliente);
-                    command.Parameters.AddWithValue("@NombreCompañia", nombreCompañia);
-                    command.Parameters.AddWithValue("@NombreContacto", nombreContacto);
-                    command.Parameters.AddWithValue("@CargoContacto", cargoContacto);
-                    command.Parameters.AddWithValue("@Direccion", direccion);
-                    command.Parameters.AddWithValue("@Ciudad", ciudad);
-                    command.Parameters.AddWithValue("@Pais", pais);
-                    command.Parameters.AddWithValue("@Telefono", telefono);
 
                     int rowsAffected = command.ExecuteNonQuery();
                 }
             }
-        }
 
+        }
 
         private void Button_Listar(object sender, RoutedEventArgs e)
         {
-            List<Clientes> clientes = new List<Clientes>();
-            try
-            {
+            List<ClientesBorrados> clientes = new List<ClientesBorrados>();
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    using (SqlCommand command = new SqlCommand("USP_ListarClientes", connection))
+                    using (SqlCommand command = new SqlCommand("USP_ListarClientesBorrados", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -89,8 +73,9 @@ namespace lab05
                                 string ciudad = reader.GetString(reader.GetOrdinal("Ciudad"));
                                 string pais = reader.GetString(reader.GetOrdinal("Pais"));
                                 string telefono = reader.GetString(reader.GetOrdinal("Telefono"));
+                                bool estado = reader.IsDBNull(reader.GetOrdinal("Estado")) ? false : reader.GetBoolean(reader.GetOrdinal("Estado"));
 
-                                clientes.Add(new Clientes(idCliente, nombreCompañia, nombreContacto, cargoContacto, direccion, ciudad, pais, telefono));
+                                clientes.Add(new ClientesBorrados(idCliente, nombreCompañia, nombreContacto, cargoContacto, direccion, ciudad, pais, telefono, estado));
                             }
                         }
                     }
@@ -98,14 +83,6 @@ namespace lab05
 
                 dataClientes.ItemsSource = clientes;
                 dataClientes.Visibility = Visibility.Visible;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-
-
+        }   
     }
 }

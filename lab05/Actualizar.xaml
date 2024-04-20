@@ -1,0 +1,52 @@
+﻿<Window x:Class="lab05.Actualizar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab05"
+        mc:Ignorable="d"
+        Title="Actualizar" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Columna Izquierda -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <TextBlock Text="Actualizar Cliente" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="ID" Margin="0 10 0 0"/>
+            <TextBox x:Name="txtIdCliente" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nuevo Nombre de Compañia" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevoNombreCompañia" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nuevo Nombre de Contacto" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevoNombreContacto" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nuevo Cargo de Contacto" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevoCargoContacto" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nueva Dirección" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevaDireccion" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nueva Ciudad" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevaCiudad" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nuevo País" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevoPais" Width="150" Margin="0 0 0 5" />
+            <TextBlock Text="Nuevo Teléfono" Margin="0 0 0 0"/>
+            <TextBox x:Name="txtNuevoTelefono" Width="150" Margin="0 0 0 5" />
+
+            <Button Content="Actualizar" Width="100" HorizontalAlignment="Left" Click="Button_Actualizar"/>
+
+        </StackPanel>
+
+        <!-- Columna Derecha -->
+        <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
+
+            <!-- Botón Listar -->
+            <Button Content="Listar" Width="100" HorizontalAlignment="Center" Margin="0 0 0 10" Click="Button_Listar"/>
+
+            <!-- DataGrid -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <DataGrid x:Name="dataClientes" AutoGenerateColumns="True" MinHeight="200"/>
+            </ScrollViewer>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab05
 {
-    public class Clientes
+    public class ClientesBorrados
     {
         public String idCliente { get; set; }
         public String NombreCompañia { get; set; }
@@ -17,8 +17,10 @@ namespace lab05
         public String Pais { get; set; }
         public String Telefono { get; set; }
 
+        public bool Estado {  get; set; }
 
-        public Clientes(string idCliente, string nombreCompañia, string nombreContacto, string cargoContacto, string direccion, string ciudad, string pais, string telefono)
+
+        public ClientesBorrados(string idCliente, string nombreCompañia, string nombreContacto, string cargoContacto, string direccion, string ciudad, string pais, string telefono, bool estado)
         {
             this.idCliente = idCliente;
             NombreCompañia = nombreCompañia;
@@ -28,7 +30,7 @@ namespace lab05
             Ciudad = ciudad;
             Pais = pais;
             Telefono = telefono;
+            Estado = estado;
         }
-
     }
 }
